@@ -27,7 +27,7 @@ const initBot = () => {
     bot.on('message', message => { // logs messages to console + logins
         logger.info(message.toString())
             if (message.toString() === ("[8b8t] Please, login with the command: /login <password>")) {
-                bot.chat('/login') }
+                bot.chat('/login yourpasswordhere') }
       });
 
       bot.on("physicsTick", async () => { // Auto-totem
