@@ -32,7 +32,7 @@ const initBot = () => {
     bot.on('message', message => { // logs messages to console + logins for the server
         console.log('\x1b[36m%s\x1b[0m', '[CHAT]' + '\x1b[0m', '' + message.toString());
             if (message.toString() === ("[8b8t] Please, login with the command: /login <password>")) {
-                bot.chat(`/login ${config.token}`) } // Login (hope this works, fuck the session reconnection)
+                bot.chat(`/login ${config.password}`) } // Login (hope this works, fuck the session reconnection)
             if (message.toString() === ("Successful login!")) {
                 console.log('\x1b[33m%s\x1b[0m','[Console] Bot has joined the server!') } // Bot has joined the server
       });
