@@ -16,5 +16,5 @@ Made for 8b8t.me (haven't tested it on other servers yet)
 ### Usage
 1. download node.js and vscode uhh.. uh..
 2. npm i to install all the packages we needed
-3. add the password on index.js (pls host it privately) and add yuor bot name to config.jsoner
+3. add the password, username, prefix to the config.json file
 5. once done just node . and we going
