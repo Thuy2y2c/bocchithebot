@@ -57,11 +57,11 @@ const initBot = () => {
     });
 
     bot.on("move", ()=>{
-        let nigger = bot.nearestEntity();
+        let gamer = bot.nearestEntity();
     
-        if (nigger) {
-            bot.lookAt(nigger.position.offset(0, nigger.height, 0)); // look at their head
-         // console.log(`looking at ${nigger.username}`)
+        if (gamer) {
+            bot.lookAt(gamer.position.offset(0, gamer.height, 0)); // look at their head
+         // console.log(`looking at ${gamer.username}`)
         }
     });
     
