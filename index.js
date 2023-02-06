@@ -1,17 +1,12 @@
 const mineflayer = require('mineflayer');
-require('dotenv').config(); // .env
-const { username, prefix } = require('./config.json');
+const { username, prefix, password } = require('./config.json');
 const ms = require('ms');
-
-const config = {
-    password: process.env.PASSWORD // khong be oi 
-  };
 
 console.log('\x1b[33m%s\x1b[0m','[Console] Creating bot...');
 
     // Mineflayer plugins :
     var tpsPlugin = require('mineflayer-tps')(mineflayer);
-
+    
 const botArgs = { // Tạo bot
     host: '51.81.220.187',
     port: '25565',
@@ -32,11 +27,11 @@ const initBot = () => {
     bot.on('message', message => { // logs messages to console + logins for the server
         console.log('\x1b[36m%s\x1b[0m', '[CHAT]' + '\x1b[0m', '' + message.toString());
             if (message.toString() === ("[8b8t] Please, login with the command: /login <password>")) {
-                bot.chat(`/login ${config.password}`) } // Login (hope this works, fuck the session reconnection)
+                bot.chat(`/login ` + password) } // Login (not gonna use .env, if you're using a public service like repl.it and you got hacked its your fault.)
             if (message.toString() === ("Successful login!")) {
                 console.log('\x1b[33m%s\x1b[0m','[Console] Bot has joined the server!') } // Bot has joined the server
       });
-
+    
     // TPS command
     bot.on('chat', (username, message) => {
         if (username === bot.username) return
@@ -59,6 +54,25 @@ const initBot = () => {
           case prefix + 'ping':
            bot.chat(`> Hey ${username}! your ping is : ${bot.player.ping}ms`)
         }
+    });
+
+    bot.on("move", ()=>{
+        let nigger = bot.nearestEntity();
+    
+        if (nigger) {
+            bot.lookAt(nigger.position.offset(0, nigger.height, 0)); // look at their head
+         // console.log(`looking at ${nigger.username}`)
+        }
+    });
+    
+    var walking = false;
+    
+    bot.on("entityHurt", (entity)=>{ // when hurt, follows player that gives bot damage
+        if (entity != bot.entity) return;
+        walking = !walking;
+        bot.setControlState("forward", walking)
+        bot.chat(`meow ;)`);
+        bot.setControlState('sprint', true); // add sprint
     });
 
     bot.on('death', () => {
