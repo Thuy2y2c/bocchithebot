@@ -7,8 +7,8 @@ console.log('\x1b[33m%s\x1b[0m','[Console] Creating bot...');
     // Mineflayer plugins :
     var tpsPlugin = require('mineflayer-tps')(mineflayer);
     
-const botArgs = { // Tạo bot
-    host: '51.81.220.187',
+const botArgs = { // Create bot
+    host: '51.81.220.187', // 51.81.220.187 for 8b8t
     port: '25565',
     username: username,
     version: '1.12.2'
@@ -32,47 +32,19 @@ const initBot = () => {
                 console.log('\x1b[33m%s\x1b[0m','[Console] Bot has joined the server!') } // Bot has joined the server
       });
     
-    // TPS command
-    bot.on('chat', (username, message) => {
-        if (username === bot.username) return
-        if (message === prefix + 'tps') {
-          bot.chat(`> The current TPS of the server is : ` + bot.getTps())
-          console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed tps command!`)
-        }
-      });
-
-    // super lazy to make a command handler, sorry ;)
-    bot.on('chat', async (username, message) => { // A list of commands instead of repeating the same thing ^^
-        command = message.split(' ')
-        switch (command[0]) {
-          case 'AnarchyVN':
-          bot.chat("shut the fuck up bro! that server is disgusting!")
-          case prefix + 'botinfo':
-           bot.chat(`> Hey ${username}! My hunger bar : ${bot.food} | My hearts (health) left : ${bot.health}`)
-          case prefix + 'help':
-           bot.chat(`> Hey ${username}! tps , botinfo , help`)
-          case prefix + 'ping':
-           bot.chat(`> Hey ${username}! your ping is : ${bot.player.ping}ms`)
-        }
-    });
-
-    bot.on("move", ()=>{
+      bot.on("move", ()=>{ // THE FRIENDLY FEATURE. (remove if you want) https://streamable.com/2pj3ur
         let gamer = bot.nearestEntity();
     
         if (gamer) {
             bot.lookAt(gamer.position.offset(0, gamer.height, 0)); // look at their head
+            bot.setControlState('jump', true) 
+            bot.swingArm('right')
+            setInterval(() => {
+                bot.setControlState('sneak', true) 
+                bot.setControlState('sneak', false);
+              }, 450); // the lower the amount the friendlier (this could lags the server remove if u want) 
          // console.log(`looking at ${gamer.username}`)
         }
-    });
-    
-    var walking = false;
-    
-    bot.on("entityHurt", (entity)=>{ // when hurt, follows player that gives bot damage
-        if (entity != bot.entity) return;
-        walking = !walking;
-        bot.setControlState("forward", walking)
-        bot.chat(`meow ;)`);
-        bot.setControlState('sprint', true); // add sprint
     });
 
     bot.on('death', () => {
