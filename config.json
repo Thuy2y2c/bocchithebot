@@ -1,4 +1,5 @@
 {
-    "username":"bocchithebot",
-    "prefix":","
+    "username":"your bot username",
+    "prefix":",",
+    "password":"your bot password for auth"
 }
