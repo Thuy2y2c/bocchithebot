@@ -1,4 +1,5 @@
 const mineflayer = require('mineflayer');
+var tpsPlugin = require('mineflayer-tps')(mineflayer)
 const { username, prefix, password } = require('./config.json');
 const ms = require('ms');
 
@@ -15,6 +16,9 @@ const initBot = () => {
 
     // Create the bot
     let bot = mineflayer.createBot(botArgs);
+
+    // Load Mineflayer Plugins
+    bot.loadPlugin(tpsPlugin)
 
     console.log('\x1b[33m%s\x1b[0m',`[Console] Logged in as ${username}`);
 
@@ -40,6 +44,46 @@ const initBot = () => {
         }, 200); // friendly got cool downs for anticheats
       }
     });
+
+        bot.on('chat', (username, message) => {
+            if (username === bot.username) return
+            if (message === prefix + 'help') {
+              bot.chat('Commands : help, info, botstatus, ping, serverstatus')
+              console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed help command!`)
+            }
+          });
+
+          bot.on('chat', (username, message) => {
+            if (username === bot.username) return
+            if (message === prefix + 'info') {
+              bot.chat(`${bot.username} is using Thuy2y2c/bocchithebot source code.`)
+              console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed info command!`)
+            }
+          });
+          
+          bot.on('chat', (username, message) => {
+            if (username === bot.username) return
+            if (message === prefix + 'botstatus') {
+              bot.chat(`${bot.username} currently has ${bot.health}hp and ${bot.food} as hunger.`)
+              console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed botstatus command!`)
+            }
+          });
+
+          bot.on('chat', (username, message) => {
+            if (username === bot.username) return
+            if (message === prefix + 'ping') {
+              bot.chat(`Your ping: ${bot.player.ping}ms`) // only checks for the player that executes the command. (might do the $ping (player) so other players can check their friend ping.)
+              console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed ping command!`)
+            }
+          });
+
+          bot.on('chat', (username, message) => {
+            if (username === bot.username) return
+            if (message === prefix + 'serverstatus') {
+            bot.chat(`TPS: ${bot.getTps()} | Players: ${Object.values(bot.players).map(player => player.username).length}`)
+              console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed serverstatus command!`)
+            }
+          });
     
     bot.on('death', () => {
         console.log('\x1b[33m%s\x1b[0m',
