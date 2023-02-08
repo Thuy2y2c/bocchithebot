@@ -14,8 +14,8 @@ var tpsPlugin = require('mineflayer-tps')(mineflayer)
 const armorManager = require('mineflayer-armor-manager')
 
 const botArgs = { // Create bot
-    host: 'localhost', // 51.81.220.187 for 8b8t
-    port: '60609',
+    host: '51.81.220.187', // 51.81.220.187 for 8b8t
+    port: '25565',
     username: username,
     version: '1.12.2'
 };
