@@ -1,0 +1,9 @@
+{
+    "friendlymode": {
+      "enabled": false
+    },
+
+    "pvpmode": {
+        "enabled": true
+      }
+  }
