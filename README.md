@@ -18,3 +18,6 @@ Made for 8b8t.me (haven't tested it on other servers yet)
 2. npm i to install all the packages we needed
 3. add the password, username, prefix to the config.json file
 5. once done just node . and we going
+
+### pls contribute
+i am lonely and sad i really want to maintain this bot until its perfectly good. help me do bot :(
