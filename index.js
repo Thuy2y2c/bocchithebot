@@ -5,9 +5,17 @@ const ms = require('ms');
 
 console.log('\x1b[33m%s\x1b[0m','[Console] Creating bot...');
 
+const config = require('./botsettings.json');
+
+// Mineflayer plugins sits here.
+const pvp = require('mineflayer-pvp').plugin
+const { pathfinder, Movements, goals } = require('mineflayer-pathfinder')
+var tpsPlugin = require('mineflayer-tps')(mineflayer)
+const armorManager = require('mineflayer-armor-manager')
+
 const botArgs = { // Create bot
-    host: '51.81.220.187', // 51.81.220.187 for 8b8t
-    port: '25565',
+    host: 'localhost', // 51.81.220.187 for 8b8t
+    port: '60609',
     username: username,
     version: '1.12.2'
 };
@@ -19,6 +27,9 @@ const initBot = () => {
 
     // Load Mineflayer Plugins
     bot.loadPlugin(tpsPlugin)
+    bot.loadPlugin(armorManager)
+    bot.loadPlugin(pathfinder)
+    bot.loadPlugin(pvp)
 
     console.log('\x1b[33m%s\x1b[0m',`[Console] Logged in as ${username}`);
 
@@ -29,7 +40,12 @@ const initBot = () => {
             if (message.toString() === ("Successful login!")) {
                 console.log('\x1b[33m%s\x1b[0m','[Console] Bot has joined the server!') } // Bot has joined the server
       });
-    
+      
+    bot.armorManager.equipAll()
+
+    if (config.friendlymode.enabled) {  // Don't use friendlymode when PVP feature is enabled. 
+      console.log('\x1b[33m%s\x1b[0m',`[Console] Friendly Mode enabled (DO NOT ENABLE FRIENDLY MODE IF THIS FEATURE IS ENABLED)`);
+
       bot.on("move", ()=>{ // Tried this on 2b2t. A player kidnapped the bot.
         let enemy = bot.nearestEntity();
     
@@ -43,7 +59,30 @@ const initBot = () => {
             bot.setControlState('sneak', false)
         }, 200); // friendly got cool downs for anticheats
       }
-    });
+    })
+  };
+
+  if (config.pvpmode.enabled) {  // Don't use friendlymode when PVP feature is enabled. (https://streamable.com/2rgwgm)
+    console.log('\x1b[33m%s\x1b[0m',`[Console] PVP mode enabled (DO NOT ENABLE FRIENDLY MODE IF THIS FEATURE IS ENABLED)`);
+      bot.on('chat', (username, message) => {
+        if (message === prefix + 'pvp') {
+        bot.chat("youre dead :DD i will kil u!!")
+        const player = bot.players[username]
+  
+        if (!player) {
+          bot.chat("You're not on my range, pls find me and give me armor and a sword and ask me to pvp again :D")
+        return
+      }
+  
+      bot.pvp.attack(player.entity)
+    }
+
+      if (message === prefix + 'stoppvp') {
+        bot.chat("okay okay!! i will stop hurting you :(")
+        bot.pvp.stop()
+      }
+    })
+  };
 
         bot.on('chat', (username, message) => {
             if (username === bot.username) return
