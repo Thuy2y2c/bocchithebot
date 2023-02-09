@@ -9,5 +9,17 @@
 
     "prismarineviewer": {
       "enabled": true
-    }
+    },
+
+    "chatfeatures": {
+      "spammer": {
+        "enabled": true,
+        "delay": 30,
+        "repeat": true,
+
+        "messages": [
+          "theres bugs in your skin",
+          "hewwo :D"
+        ]
+      }}
   }
