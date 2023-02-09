@@ -16,7 +16,7 @@ const mineflayerViewer = require('prismarine-viewer').mineflayer
 
 const botArgs = { // Create bot
     host: 'localhost', // 51.81.220.187 for 8b8t
-    port: '49533',
+    port: '51922',
     username: username,
     version: '1.12.2'
 };
@@ -55,13 +55,28 @@ const initBot = () => {
     
     bot.armorManager.equipAll()
 
-    bot.on("login", () => { // CHATGPT (MIGHT INTERRUPT USERS FROM USING ,help nor any commands!)
-      setInterval(() => {
-        {
-          bot.chat(`This bot is using Thuy2y2c/bocchithebot sourcecode. ${prefix}help for commands.`); // might make a array for the bot to spam one by one per setted second, not all at once.
-        }
-      }, 3600000); // 1000 = 1 second (A HOUR WTF!!!)
-    });
+    if (config.chatfeatures['spammer'].enabled) { 
+      console.log('\x1b[33m%s\x1b[0m',`[Console] Spammer is enabled.`);
+
+      let messages = config.chatfeatures['spammer']['messages'];
+
+      if (config.chatfeatures['spammer'].repeat) {
+         let delay = config.chatfeatures['spammer']['delay']; // i don't know. but this code is too simular to urFate/Afk-Bot project.
+         let meow = 0;
+
+         setInterval(() => {
+            bot.chat(`${messages[meow]}`);
+
+            if (meow + 1 === messages.length) {
+              meow = 0;
+            } else meow++;
+         }, delay * 1000);
+      } else {
+         messages.forEach((msg) => {
+            bot.chat(msg);
+         });
+      }
+   }
 
     if (config.friendlymode.enabled) {  // Don't use friendlymode when PVP feature is enabled.
       console.log('\x1b[33m%s\x1b[0m',`[Console] Friendly Mode enabled (DO NOT ENABLE PVP MODE IF THIS FEATURE IS ENABLED)`);
