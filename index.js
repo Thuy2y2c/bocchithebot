@@ -14,8 +14,8 @@ var tpsPlugin = require('mineflayer-tps')(mineflayer)
 const armorManager = require('mineflayer-armor-manager')
 
 const botArgs = { // Create bot
-    host: '51.81.220.187', // 51.81.220.187 for 8b8t
-    port: '25565',
+    host: 'localhost', // 51.81.220.187 for 8b8t
+    port: '49533',
     username: username,
     version: '1.12.2'
 };
@@ -38,7 +38,7 @@ const initBot = () => {
             if (message.toString() === ("[8b8t] Please, login with the command: /login <password>")) {
                 bot.chat(`/login ` + password) } // Login (not gonna use .env, if you're using a public service like repl.it and you got hacked its your fault.)
                 if (message.toString() === ("[8b8t] Please register to play 8b8t /register <password>")) {
-                  bot.chat(`/register ` + password) } // Registers into 8b. Might made this universal for servers that uses the same login concept.
+                bot.chat(`/register ` + password) } // Registers into 8b. Might made this universal for servers that uses the same login concept.
             if (message.toString() === ("Successful login!")) {
                 console.log('\x1b[33m%s\x1b[0m','[Console] Bot has joined the server!') } // Bot has joined the server
             if (message.toString() === ("Successfully registered!")) {
@@ -52,17 +52,18 @@ const initBot = () => {
         {
           bot.chat(`This bot is using Thuy2y2c/bocchithebot sourcecode. ${prefix}help for commands.`); // might make a array for the bot to spam one by one per setted second, not all at once.
         }
-      }, 30000); // 1000 = 1 second
+      }, 3600000); // 1000 = 1 second (A HOUR WTF!!!)
     });
 
     if (config.friendlymode.enabled) {  // Don't use friendlymode when PVP feature is enabled.
-      console.log('\x1b[33m%s\x1b[0m',`[Console] Friendly Mode enabled (DO NOT ENABLE FRIENDLY MODE IF THIS FEATURE IS ENABLED)`);
+      console.log('\x1b[33m%s\x1b[0m',`[Console] Friendly Mode enabled (DO NOT ENABLE PVP MODE IF THIS FEATURE IS ENABLED)`);
 
       bot.on("move", ()=>{ // Tried this on 2b2t. A player kidnapped the bot.
-        let enemy = bot.nearestEntity();
+        const playerFilter = (entity) => entity.type === 'player' // filters out all entities except the player.
+        let enemy = bot.nearestEntity(playerFilter);
     
-        if (enemy) {
-            bot.lookAt(enemy.position.offset(0, enemy.height, 0))
+        if (player) {
+            bot.lookAt(player.position.offset(0, enemy.height, 0))
             bot.swingArm('right')
             setInterval(() => {
                bot.setControlState('sneak', true)
@@ -99,7 +100,7 @@ const initBot = () => {
         bot.on('chat', (username, message) => {
             if (username === bot.username) return
             if (message === prefix + 'help') {
-              bot.chat('Commands : help, info, botstatus, ping, serverstatus')
+              bot.chat('Commands : help, info, botstatus, ping, serverstatus, kill')
               console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed help command!`)
             }
           });
@@ -125,6 +126,14 @@ const initBot = () => {
             if (message === prefix + 'ping') {
               bot.chat(`Your ping: ${bot.player.ping}ms`) // only checks for the player that executes the command. (might do the $ping (player) so other players can check their friend ping.)
               console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed ping command!`)
+            }
+          });
+
+          bot.on('chat', (username, message) => {
+            if (username === bot.username) return
+            if (message === prefix + 'kill') {
+              bot.chat(`/kill`) 
+              console.log('\x1b[33m%s\x1b[0m',`[Console] ${username} executed kill command!`)
             }
           });
 
