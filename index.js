@@ -37,13 +37,25 @@ const initBot = () => {
         console.log('\x1b[36m%s\x1b[0m', '[CHAT]' + '\x1b[0m', '' + message.toString());
             if (message.toString() === ("[8b8t] Please, login with the command: /login <password>")) {
                 bot.chat(`/login ` + password) } // Login (not gonna use .env, if you're using a public service like repl.it and you got hacked its your fault.)
+                if (message.toString() === ("[8b8t] Please register to play 8b8t /register <password>")) {
+                  bot.chat(`/register ` + password) } // Registers into 8b. Might made this universal for servers that uses the same login concept.
             if (message.toString() === ("Successful login!")) {
                 console.log('\x1b[33m%s\x1b[0m','[Console] Bot has joined the server!') } // Bot has joined the server
+            if (message.toString() === ("Successfully registered!")) {
+                console.log('\x1b[33m%s\x1b[0m','[Console] Bot has successfully registered to the server!') } // huhu   
       });
-      
+    
     bot.armorManager.equipAll()
 
-    if (config.friendlymode.enabled) {  // Don't use friendlymode when PVP feature is enabled. 
+    bot.on("login", () => { // CHATGPT (MIGHT INTERRUPT USERS FROM USING ,help nor any commands!)
+      setInterval(() => {
+        {
+          bot.chat(`This bot is using Thuy2y2c/bocchithebot sourcecode. ${prefix}help for commands.`); // might make a array for the bot to spam one by one per setted second, not all at once.
+        }
+      }, 30000); // 1000 = 1 second
+    });
+
+    if (config.friendlymode.enabled) {  // Don't use friendlymode when PVP feature is enabled.
       console.log('\x1b[33m%s\x1b[0m',`[Console] Friendly Mode enabled (DO NOT ENABLE FRIENDLY MODE IF THIS FEATURE IS ENABLED)`);
 
       bot.on("move", ()=>{ // Tried this on 2b2t. A player kidnapped the bot.
@@ -62,7 +74,7 @@ const initBot = () => {
     })
   };
 
-  if (config.pvpmode.enabled) {  // Don't use friendlymode when PVP feature is enabled. (https://streamable.com/2rgwgm)
+  if (config.pvpmode.enabled) {  // Don't use friendlymode when PVP feature is enabled.
     console.log('\x1b[33m%s\x1b[0m',`[Console] PVP mode enabled (DO NOT ENABLE FRIENDLY MODE IF THIS FEATURE IS ENABLED)`);
       bot.on('chat', (username, message) => {
         if (message === prefix + 'pvp') {
