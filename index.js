@@ -60,10 +60,10 @@ const initBot = () => {
 
       bot.on("move", ()=>{ // Tried this on 2b2t. A player kidnapped the bot.
         const playerFilter = (entity) => entity.type === 'player' // filters out all entities except the player.
-        let enemy = bot.nearestEntity(playerFilter);
+        let player = bot.nearestEntity(playerFilter);
     
         if (player) {
-            bot.lookAt(player.position.offset(0, enemy.height, 0))
+            bot.lookAt(player.position.offset(0, player.height, 0))
             bot.swingArm('right')
             setInterval(() => {
                bot.setControlState('sneak', true)
