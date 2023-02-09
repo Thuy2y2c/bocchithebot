@@ -12,6 +12,7 @@ const pvp = require('mineflayer-pvp').plugin
 const { pathfinder, Movements, goals } = require('mineflayer-pathfinder')
 var tpsPlugin = require('mineflayer-tps')(mineflayer)
 const armorManager = require('mineflayer-armor-manager')
+const mineflayerViewer = require('prismarine-viewer').mineflayer
 
 const botArgs = { // Create bot
     host: 'localhost', // 51.81.220.187 for 8b8t
@@ -32,6 +33,13 @@ const initBot = () => {
     bot.loadPlugin(pvp)
 
     console.log('\x1b[33m%s\x1b[0m',`[Console] Logged in as ${username}`);
+
+    if (config.prismarineviewer.enabled) {
+    bot.once('spawn', () => {
+      console.log('\x1b[33m%s\x1b[0m','[Viewer] Viewer is listening to port 8080')
+      mineflayerViewer(bot, { port: 8080, firstPerson: true })
+    })
+  };
 
     bot.on('message', message => { // logs messages to console + logins for the server
         console.log('\x1b[36m%s\x1b[0m', '[CHAT]' + '\x1b[0m', '' + message.toString());
