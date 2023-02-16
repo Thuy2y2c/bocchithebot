@@ -1,3 +1,5 @@
+# This project is paused for a while. Might make bocchithebridge for users who want discord bridge lol.
+
 # bocchithebot
 autism anime girl is now a bot on 8b8t.me, fuck leee
 
